@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Cristiano Ronaldo — A Cinematic Journey</title>
+<style>
+  /* ---------------------------
+     Global reset & base styles
+     --------------------------- */
+  :root{
+    --bg-1: #02040a;
+    --bg-2: #081228;
+    --accent: #ffdd57;
+    --glow: rgba(255,221,87,0.18);
+    --card-bg: rgba(255,255,255,0.03);
+    --glass: rgba(255,255,255,0.03);
+    --muted: rgba(255,255,255,0.6);
+    --glass-border: rgba(255,255,255,0.06);
+    --neon: #00ffd5;
+    --highlight: #ff6b6b;
+    --shadow: rgba(2,6,23,0.6);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body,#app{height:100%}
+  body{
+    min-height:100vh;
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(8,30,70,0.35), transparent),
+                radial-gradient(1000px 500px at 90% 90%, rgba(2,10,20,0.6), transparent),
+                linear-gradient(180deg,var(--bg-1),var(--bg-2));
+    color: #f3f4f6;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+    padding-bottom:6rem;
+  }
+  a{color:var(--accent);text-decoration:none}
+  /* cinematic vignette */
+  .vignette{
+    position:fixed;inset:0;pointer-events:none;
+    background: radial-gradient(60% 40% at 50% 40%, rgba(0,0,0,0) 0% , rgba(0,0,0,0.25) 55%, rgba(0,0,0,0.5) 100%);
+    mix-blend-mode:multiply;
+    z-index:5;
+  }
+
+  /* ---------------------------
+     Layout & header
+     --------------------------- */
+  .container{
+    max-width:1200px;margin:0 auto;padding:3.2rem 1.6rem 6rem;position:relative;z-index:10;
+  }
+  header{
+    display:flex;align-items:center;gap:1.6rem;
+    margin-bottom:2.4rem;
+  }
+  .badge{
+    width:84px;height:84px;border-radius:16px;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border:1px solid var(--glass-border);
+    box-shadow: 0 6px 40px rgba(0,0,0,0.45), 0 0 30px rgba(255,221,87,0.04) inset;
+    flex:0 0 84px;
+  }
+  .title-wrap{
+    flex:1;
+  }
+  h1{
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height:1.02;margin-bottom:.2rem;
+    letter-spacing:-0.02em;
+    color:linear-gradient(var(--accent), #fff);
+    position:relative;
+    z-index:2;
+    display:inline-block;
+  }
+  h1 .neon{
+    color:var(--accent);
+    text-shadow:
+      0 0 18px rgba(255,221,87,0.18),
+      0 0 40px rgba(255,136,0,0.06);
+    font-weight:800;
+  }
+  .subtitle{
+    color:var(--muted);
+    font-size:0.98rem;
+    margin-top:0.25rem;
+  }
+
+  /* glowy heading effect */
+  .glow-heading{
+    display:inline-block;
+    padding:0.2rem 0.6rem;
+    border-radius:8px;
+    background:linear-gradient(90deg, rgba(255,221,87,0.06), rgba(255,107,107,0.02));
+    box-shadow: 0 6px 30px rgba(255,221,87,0.04), 0 0 60px rgba(255,107,107,0.02) inset;
+    backdrop-filter: blur(6px) saturate(120%);
+  }
+  .glow-heading:after{
+    content:"";
+    position:absolute;
+    pointer-events:none;
+  }
+
+  /* hero */
+  .hero{
+    display:grid;grid-template-columns:1fr 420px;gap:2.2rem;align-items:stretch;margin-bottom:2.8rem;
+  }
+  .hero-card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:16px;padding:1.6rem;border:1px solid var(--glass-border);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    position:relative;overflow:hidden;
+  }
+  .hero-main{
+    padding:2rem;
+  }
+  .hero-aside{
+    padding:1.6rem;display:flex;flex-direction:column;gap:1rem;
+  }
+
+  /* cinematic filmstrip */
+  .filmstrip{
+    margin-top:1.2rem;display:flex;gap:8px;align-items:center;
+    overflow:auto;padding-bottom:6px;
+  }
+  .strip-item{
+    min-width:120px;height:80px;border-radius:8px;background:linear-gradient(180deg,#111722,#0b1220);
+    border:1px solid rgba(255,255,255,0.03);
+    flex:0 0 140px;padding:8px;display:flex;align-items:flex-end;
+    position:relative;
+  }
+  .strip-item img{width:100%;height:100%;object-fit:cover;border-radius:6px;display:block}
+
+  /* timeline */
+  .timeline{
+    margin-top:2rem;
+  }
+  .timeline .event{
+    display:grid;grid-template-columns:80px 1fr;gap:1rem;padding:1rem 1.2rem;border-radius:12px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    border:1px solid var(--glass-border);margin-bottom:12px;align-items:start;
+  }
+  .event .year{
+    font-weight:700;color:var(--accent);font-size:1.05rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .event .desc{color:var(--muted);font-size:0.98rem;line-height:1.45}
+
+  /* stats */
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:1rem}
+  .stat{
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid var(--glass-border);padding:1rem;border-radius:12px;text-align:center;
+  }
+  .stat .num{font-size:1.5rem;font-weight:800;color:var(--neon);margin-bottom:4px}
+  .stat .label{color:var(--muted);font-size:0.85rem}
+
+  /* Image gallery styles */
+  .image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .image-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius: 16px;
+    padding: 1.2rem;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .image-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+  }
+  .image-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .image-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+  }
+  .image-card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  /* quotes */
+  .quote{
+    margin-top:1.6rem;border-left:4px solid rgba(255,255,255,0.12);padding:1rem 1.2rem;border-radius:8px;background:var(--card-bg);
+    color:var(--muted);
+    font-style:italic;
+  }
+
+  /* footer */
+  footer{
+    margin-top:2.6rem;text-align:center;color:var(--muted);
+    font-size:0.9rem;padding:2rem 1rem;border-radius:12px;
+  }
+
+  /* responsive */
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr}
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:520px){
+    .stats-grid{grid-template-columns:1fr}
+    .title-wrap{display:block}
+  }
+
+  /* ---------------------------
+     Cinematic animations & effects
+     --------------------------- */
+  .glimmer{
+    position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0.65;
+    background: radial-gradient(400px 120px at 10% 10%, rgba(255,255,255,0.02), transparent 12%),
+                radial-gradient(300px 100px at 90% 90%, rgba(255,107,107,0.02), transparent 10%);
+    filter: blur(20px);
+    animation: drift 12s linear infinite;
+  }
+  @keyframes drift{
+    0%{transform:translateY(0) translateX(0)}
+    50%{transform:translateY(-8px) translateX(18px)}
+    100%{transform:translateY(0) translateX(0)}
+  }
+
+  .glowy{
+    position:relative;
+    text-shadow:
+      0 0 6px rgba(255,221,87,0.12),
+      0 0 20px rgba(255,221,87,0.06),
+      0 8px 30px rgba(0,0,0,0.7);
+  }
+
+  /* subtle particle field */
+  .particle-field{
+    position:absolute;inset:0;pointer-events:none;z-index:2;opacity:0.25;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 80px 80px, 140px 140px;
+    background-position: 10% 10%, 50% 80%;
+    mix-blend-mode:overlay;
+  }
+
+  /* fancy thin separators */
+  .sep{
+    height:1px;background:linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+    margin:1.6rem 0;border-radius:2px;
+  }
+
+  /* small utility */
+  .muted{color:var(--muted)}
+  .pill{display:inline-block;background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:999px;border:1px solid rgba(255,255,255,0.03);font-weight:600}
+  .center{text-align:center}
+  .mb-8{margin-bottom:2rem}
+  .small{font-size:0.88rem;color:var(--muted)}
+
+  /* cinematic score bar */
+  .score-bar{display:flex;gap:8px;align-items:center}
+  .score{height:10px;background:linear-gradient(90deg,var(--neon),#3ec6ff);border-radius:999px;flex:1;box-shadow:0 6px 18px rgba(0,0,0,0.6) inset}
+  .score .fill{width:85%;height:100%;border-radius:999px;background:linear-gradient(90deg,#00ffd5,#3ec6ff)}
+</style>
+</head>
+<body>
+<div class="vignette"></div>
+<div class="particle-field"></div>
+<div class="container" id="app">
+
+  <header>
+    <div class="badge glowy" aria-hidden="true">
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="0" x2="1">
+            <stop offset="0" stop-color="#ffdd57"/>
+            <stop offset="1" stop-color="#ff6b6b"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="56" height="56" rx="12" fill="url(#g1)" opacity="0.06"/>
+        <g transform="translate(8,6)" fill="#fff" opacity="0.9">
+          <circle cx="20" cy="20" r="16" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.6" />
+          <path d="M20 6 L24 11 L20 14 L16 11 Z" fill="rgba(255,255,255,0.9)"/>
+        </g>
+        <text x="32" y="45" font-family="Inter,Arial" font-weight="700" font-size="12" fill="#fff" opacity="0.92">CR</text>
+      </svg>
+    </div>
+
+    <div class="title-wrap">
+      <h1 class="glow-heading glowy">
+        <span class="neon">Cristiano Ronaldo</span> — The Cinematic Journey
+      </h1>
+      <div class="subtitle">From Funchal to the world stage: birth, rise, records, and legacy — presented with cinematic visuals.</div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-card hero-main">
+      <div style="display:flex;gap:1.6rem;align-items:flex-start;">
+        <div style="flex:1;">
+          <svg viewBox="0 0 720 720" width="100%" height="360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Stylized portrait of Cristiano Ronaldo">
+            <defs>
+              <linearGradient id="skin" x1="0" x2="1"><stop offset="0" stop-color="#f6d8c0"/><stop offset="1" stop-color="#f0c9b0"/></linearGradient>
+              <linearGradient id="hair" x1="0" x2="1"><stop offset="0" stop-color="#171717"/><stop offset="1" stop-color="#2b2b2b"/></linearGradient>
+              <linearGradient id="kit" x1="0" x2="1"><stop offset="0" stop-color="#003b6f"/><stop offset="1" stop-color="#005b9a"/></linearGradient>
+            </defs>
+            <rect width="100%" height="100%" rx="20" fill="rgba(0,0,0,0.32)"/>
+            <circle cx="560" cy="120" r="160" fill="rgba(255,221,87,0.06)"/>
+            <circle cx="80" cy="580" r="120" fill="rgba(255,107,107,0.04)"/>
+            <g transform="translate(120,80) scale(0.7)">
+              <ellipse cx="365" cy="248" rx="160" ry="200" fill="url(#skin)"/>
+              <path d="M225 180 C285 110 445 110 505 180 L505 320 C445 360 285 360 225 320 Z" fill="url(#kit)" opacity="0.95"/>
+              <path d="M260 120 C280 70 420 70 440 120 C440 130 440 140 440 150 C420 130 280 130 260 150 Z" fill="url(#hair)"/>
+              <circle cx="320" cy="240" r="8" fill="#131313"/>
+              <circle cx="420" cy="240" r="8" fill="#131313"/>
+              <path d="M340 300 Q380 320 420 300" stroke="#222" stroke-width="6" fill="none" stroke-linecap="round"/>
+            </g>
+            <text x="48" y="640" font-size="48" fill="rgba(255,255,255,0.08)" font-weight="800">CR7</text>
+          </svg>
+        </div>
+        <div style="width:320px;">
+          <h2 style="font-size:1.3rem;margin-bottom:.5rem">A life in highlights</h2>
+          <p class="muted small">Born on 5 February 1985 in Funchal, Madeira, Cristiano Ronaldo dos Santos Aveiro rose from humble beginnings to become one of football's most recognizable athletes. This page collects milestones, records, quotes, and stylized imagery celebrating his career.</p>
+
+          <div class="sep"></div>
+
+          <div class="mb-8">
+            <div class="small muted">Position</div>
+            <div style="font-weight:800">Forward / Winger</div>
+          </div>
+
+          <div class="mb-8">
+            <div class="small muted">Clubs (selected)</div>
+            <div class="small">Sporting CP • Manchester United • Real Madrid • Juventus • Al Nassr</div>
+          </div>
+
+          <div class="score-bar">
+            <div class="pill">Career Impact</div>
+            <div style="flex:1"></div>
+            <div style="width:160px"><div class="score" aria-hidden="true"><div class="fill"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filmstrip" aria-hidden="true">
+        <div class="strip-item">
+          <svg width="100%" height="100%" viewBox="0 0 140 80" preserveAspectRatio="xMidYMid slice">
+            <rect width="100%" height="100%" rx="6" fill="linearGradient" />
+            <rect x="6" y="6" width="128" height="68" rx="4" fill="#081226"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="9">Funchal</text>
+          </svg>
+        </div>
+        <div class="strip-item">
+          <svg width="100%" height="100%" viewBox="0 0 140 80" preserveAspectRatio="xMidYMid slice">
+            <rect width="100%" height="100%" rx="6" fill="#0b1220"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="9">Sporting CP</text>
+          </svg>
+        </div>
+        <div class="strip-item">
+          <svg width="100%" height="100%" viewBox="0 0 140 80">
+            <rect width="100%" height="100%" rx="6" fill="#0b0f16"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="9">Manchester Utd</text>
+          </svg>
+        </div>
+        <div class="strip-item">
+          <svg width="100%" height="100%" viewBox="0 0 140 80">
+            <rect width="100%" height="100%" rx="6" fill="#081226"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="9">Real Madrid</text>
+          </svg>
+        </div>
+        <div class="strip-item">
+          <svg width="100%" height="100%" viewBox="0 0 140 80">
+            <rect width="100%" height="100%" rx="6" fill="#0b1220"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="9">Juventus</text>
+          </svg>
+        </div>
+        <div class="strip-item">
+          <svg width="100%" height="100%" viewBox="0 0 140 80">
+            <rect width="100%" height="100%" rx="6" fill="#081226"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="9">Portugal</text>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <aside class="hero-card hero-aside">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="small muted">Fast facts</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:1.2rem">1985</div>
+            <div class="small muted">Year of birth</div>
+          </div>
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:1.2rem">5 Feb</div>
+            <div class="small muted">Birthday</div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="small muted">Honours (selected)</div>
+        <ul style="list-style:none;padding-left:0;margin-top:.5rem" class="small">
+          <li>• Multiple Ballon d'Ors</li>
+          <li>• Champions League winner (multiple times)</li>
+          <li>• European Championship winner (2016)</li>
+        </ul>
+
+        <div class="sep"></div>
+
+        <div class="small muted">Quote</div>
+        <div style="font-weight:700">"We don't want to tell our dreams. We want to show them."</div>
+
+      </div>
+    </aside>
+  </section>
+
+  <section class="timeline hero-card" aria-labelledby="timeline-heading">
+    <h2 id="timeline-heading" style="margin-bottom:1rem">Timeline — From Birth to Today</h2>
+
+    <div class="event">
+      <div class="year">1985</div>
+      <div class="desc">
+        <strong>Birth — Funchal, Madeira</strong><br>
+        Cristiano Ronaldo dos Santos Aveiro is born on <strong>5 February 1985</strong> in Funchal, on the Portuguese island of Madeira. His early years are marked by a working-class upbringing; his father, José Dinis Aveiro, worked as a kit man, and his mother, Maria Dolores, was a cook.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">1997</div>
+      <div class="desc">
+        <strong>Youth career begins</strong><br>
+        Ronaldo joins <strong>Andorinha</strong>, a local youth team, before moving to <strong>Nacional</strong> and then to Sporting CP's youth academy. His speed, skill, and ambition become evident early on.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">2002</div>
+      <div class="desc">
+        <strong>Professional debut</strong><br>
+        Cristiano makes his professional debut for <strong>Sporting CP</strong> in 2002, impressing with his dribbling and technical ability, which soon attracts top European clubs.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">2003</div>
+      <div class="desc">
+        <strong>Manchester United transfer</strong><br>
+        Alex Ferguson signs Ronaldo for <strong>Manchester United</strong> in a high-profile move. Ronaldo develops into one of the game's top wingers, helping United to Premier League titles and the 2008 UEFA Champions League.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">2008</div>
+      <div class="desc">
+        <strong>Ballon d'Or and Champions League</strong><br>
+        Ronaldo wins his first <em>Ballon d'Or</em> and lifts the Champions League with Manchester United (2008), establishing himself among football's elite.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">2009</div>
+      <div class="desc">
+        <strong>Real Madrid era</strong><br>
+        In 2009, Ronaldo transfers to <strong>Real Madrid</strong> for a then-world record fee. Over the following years he breaks scoring records, forms a prolific partnership with teammates, and wins multiple Champions League trophies.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">2016</div>
+      <div class="desc">
+        <strong>European Champion</strong><br>
+        Ronaldo captains <strong>Portugal</strong> to victory at UEFA Euro 2016 — the nation's first major international trophy.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">2018</div>
+      <div class="desc">
+        <strong>Juventus move</strong><br>
+        After a legendary spell at Real Madrid, Ronaldo moves to <strong>Juventus</strong> in 2018, continuing to score prolifically and adding Serie A titles to his trophy cabinet.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">2021</div>
+      <div class="desc">
+        <strong>Return to Manchester</strong><br>
+        Ronaldo makes a blockbuster return to Manchester United in 2021, reuniting with the club where he rose to stardom.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">2023</div>
+      <div class="desc">
+        <strong>Move to Al Nassr</strong><br>
+        Cristiano continues his global career by joining Saudi club <strong>Al Nassr</strong>, broadening his influence beyond Europe and helping grow the sport in new regions.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">Records</div>
+      <div class="desc">
+        <strong>All-time scoring</strong><br>
+        Across club and country, Ronaldo is among the top scorers in football history. He has broken multiple club and international scoring records, and consistently ranks among the top scorers of his generation.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">Trophies</div>
+      <div class="desc">
+        <strong>Titles & awards</strong><br>
+        Multiple league titles across countries, several UEFA Champions League trophies, multiple Ballon d'Ors, continental trophies with Portugal, and a vast number of individual accolades reflect his longevity and consistency.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">Off the pitch</div>
+      <div class="desc">
+        <strong>Philanthropy & brand</strong><br>
+        Ronaldo's influence extends into fashion, fitness, and philanthropy. He has supported hospitals, children's charities, and disaster relief efforts. His personal brand — CR7 — overlays apparel, fragrances, and more.
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="year">Legacy</div>
+      <div class="desc">
+        <strong>Role model & influence</strong><br>
+        Ronaldo is known for extreme work ethic, athleticism, and competitiveness. He inspires many young players around the world and is one of sport’s most marketable figures.
+      </div>
+    </div>
+
+  </section>
+
+  <div class="sep"></div>
+
+  <section class="hero-card">
+    <h2>Career Statistics (Selected)</h2>
+    <div class="stats-grid" aria-hidden="true">
+      <div class="stat">
+        <div class="num">900+</div>
+        <div class="label">Senior career goals (approx.)</div>
+      </div>
+      <div class="stat">
+        <div class="num">2000+</div>
+        <div class="label">Senior career appearances (approx.)</div>
+      </div>
+      <div class="stat">
+        <div class="num">5+</div>
+        <div class="label">Ballon d'Or awards</div>
+      </div>
+      <div class="stat">
+        <div class="num">1</div>
+        <div class="label">European Championship (2016)</div>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+      <div style="flex:1;">
+        <h3 style="margin-bottom:.4rem">Playing style & strengths</h3>
+        <p class="muted small">Ronaldo combines pace, aerial ability, finishing, and an elite free-kick and penalty technique. He transitioned from an explosive winger into a central forward capable of prolific goal returns.</p>
+      </div>
+      <div style="width:300px;">
+        <svg viewBox="0 0 200 200" width="100%" height="100%">
+          <defs>
+            <radialGradient id="g2" cx="50%" cy="30%">
+              <stop offset="0" stop-color="#ffdd57"/>
+              <stop offset="1" stop-color="#ff6b6b"/>
+            </radialGradient>
+          </defs>
+          <circle cx="100" cy="100" r="96" fill="rgba(255,255,255,0.02)"/>
+          <path d="M40 120 C70 20 130 20 160 120 C130 100 70 100 40 120 Z" fill="url(#g2)" opacity="0.14"/>
+          <text x="50%" y="54%" text-anchor="middle" fill="#fff" font-weight="700" font-size="20">Finisher</text>
+          <text x="50%" y="72%" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="12">Aerial • Penalty • Long-range</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section class="image-gallery hero-card">
+    <h2>Image Gallery — A Photographic Tribute</h2>
+    <div class="image-gallery">
+      <div class="image-card">
+          <h3>Early Days</h3>
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAQEBAgEBASFCgYFBgkICAgICAgICAgICAgICAgICAgI" alt="A young Cristiano Ronaldo standing on a football pitch.">
+          <p>A photograph of Cristiano Ronaldo during his youth career, showcasing his early days in football.</p>
+      </div>
+      <div class="image-card">
+          <h3>Sporting CP</h3>
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAQEBAgEBASFCgYFBgkICAgICAgICAgICAgICAgICAgI" alt="A young Cristiano Ronaldo smiling in his Sporting CP jersey.">
+          <p>Ronaldo during his professional debut with Sporting CP, where he first caught the attention of top clubs.</p>
+      </div>
+      <div class="image-card">
+          <h3>Manchester United</h3>
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAQEBAgEBASFCgYFBgkICAgICAgICAgICAgICAgICAgI" alt="Ronaldo during his first spell at Manchester United.">
+          <p>A candid moment from Ronaldo's first legendary spell at Manchester United.</p>
+      </div>
+      <div class="image-card">
+          <h3>Celebrating a Goal</h3>
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAQEBAgEBASFCgYFBgkICAgICAgICAgICAgICAgICAgI" alt="Ronaldo celebrating a goal in a Manchester United jersey.">
+          <p>The iconic goal celebration that has become synonymous with Cristiano Ronaldo's career.</p>
+      </div>
+      <div class="image-card">
+          <h3>Real Madrid Highlights</h3>
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAQEBAgEBASFCgYFBgkICAgICAgICAgICAgICAgICAgI" alt="Ronaldo in a Real Madrid jersey, jumping in celebration.">
+          <p>A memorable moment of Ronaldo celebrating with Real Madrid, a club where he shattered goal-scoring records.</p>
+      </div>
+      <div class="image-card">
+          <h3>Trophies and Honors</h3>
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAQEBAgEBASFCgYFBgkICAgICAgICAgICAgICAgICAgI" alt="A visual timeline of Ronaldo's trophies and honors.">
+          <p>An overview of the extensive trophy collection he has amassed throughout his career.</p>
+      </div>
+      <div class="image-card">
+          <h3>Portugal Pride</h3>
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAQEBAgEBASFCgYFBgkICAgICAgICAgICAgICAgICAgI" alt="Ronaldo celebrating a win with the Portugal national team.">
+          <p>Ronaldo celebrating with the Portugal national team, with whom he won the UEFA Euro 2016.</p>
+      </div>
+      <div class="image-card">
+          <h3>Training and Fitness</h3>
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAQEBAgEBASFCgYFBgkICAgICAgICAgICAgICAgICAgI" alt="A collage of Cristiano Ronaldo during intense training sessions.">
+          <p>A look at the rigorous training and dedication that define his long and successful career.</p>
+      </div>
+      <div class="image-card">
+          <h3>The CR7 Brand</h3>
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAQEBAgEBASFCgYFBgkICAgICAgICAgICAgICAgICAgI" alt="A cinematic image featuring the 'CR7' logo and Ronaldo in a space-like setting.">
+          <p>A stylized image representing the global "CR7" brand and his larger-than-life legacy.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section class="hero-card">
+    <h2>Quotes</h2>
+    <div class="quote">
+      "Your love makes me strong, your hate makes me unstoppable." — <em>Cristiano Ronaldo</em>
+    </div>
+    <div class="quote" style="margin-top:1rem">
+      "I don't have to show anything to anyone. There is nothing to prove." — <em>Cristiano Ronaldo</em>
+    </div>
+
+    <div class="sep"></div>
+
+    <h3>Off-field: Philanthropy & influence</h3>
+    <p class="muted small">Ronaldo has donated to hospitals, funded charity projects, and contributed during crises. He remains an influential cultural figure with a massive social media following and brand presence.</p>
+  </section>
+
+  <div class="sep"></div>
+
+  <section class="hero-card">
+    <h2>Deep dive sections</h2>
+
+    <article style="margin-top:1rem">
+      <h3>Early life & youth</h3>
+      <p class="muted small">Raised in a working-class family, Ronaldo's dedication and early move to Sporting's academy set the technical and professional foundation for his career. Coaches noted his determination, dribbling flair, and hunger for improvement. He left Madeira as a teenager to pursue football in the Portuguese capital.</p>
+    </article>
+
+    <article style="margin-top:1rem">
+      <h3>Manchester United — development & breakthrough</h3>
+      <p class="muted small">Under Sir Alex Ferguson, Ronaldo refined his game: improving crossing, decision-making, and goal threat. Evolving from a flashy winger into an elite scorer, he won domestic titles and his first Champions League.</p>
+    </article>
+
+    <article style="margin-top:1rem">
+      <h3>Real Madrid — peak scoring years</h3>
+      <p class="muted small">At Real Madrid, Ronaldo became a goalscoring machine, competing at the very highest level across La Liga and European competition. He set numerous club records and helped Real lift multiple UEFA Champions League titles.</p>
+    </article>
+
+    <article style="margin-top:1rem">
+      <h3>International success</h3>
+      <p class="muted small">As Portugal's captain, Ronaldo led the team to victory at UEFA Euro 2016 and later contributed to the 2019 UEFA Nations League win. He has represented his country across multiple World Cups and major tournaments.</p>
+    </article>
+
+    <article style="margin-top:1rem">
+      <h3>Training & mentality</h3>
+      <p class="muted small">Ronaldo is known for intense physical preparation, strict diet, and recovery routines. His discipline has allowed him to maintain elite performance into his late 30s and beyond.</p>
+    </article>
+
+    <article style="margin-top:1rem">
+      <h3>Records & statistics (not exhaustive)</h3>
+      <ul class="small muted">
+        <li>• One of the all-time top scorers in club football</li>
+        <li>• Multiple seasons as top scorer in domestic leagues</li>
+        <li>• Prolific goal ratios in both domestic and European competitions</li>
+      </ul>
+    </article>
+
+  </section>
+
+  <div class="sep"></div>
+
+  <section class="hero-card">
+    <h2 class="center">Interactive: Build your own "Highlight Reel" (static demo)</h2>
+    <p class="small muted center">This demo shows how a highlight reel might look (static placeholders). Replace SVGs with real images or clips to make it live.</p>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;">
+      <div style="flex:1;min-width:220px">
+        <div style="border-radius:12px;padding:1rem;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid var(--glass-border)">
+          <div style="height:120px;background:linear-gradient(90deg,#06283c,#04253a);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">Goal Compilation</div>
+          <div style="margin-top:.6rem" class="small muted">Select clips and order them into a highlight reel.</div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:220px">
+        <div style="border-radius:12px;padding:1rem;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid var(--glass-border)">
+          <div style="height:120px;background:linear-gradient(90deg,#3a1f5d,#1b2550);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">Training Montages</div>
+          <div style="margin-top:.6rem" class="small muted">Speed, strength, and technique drills visualized.</div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:220px">
+        <div style="border-radius:12px;padding:1rem;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid var(--glass-border)">
+          <div style="height:120px;background:linear-gradient(90deg,#1b4b3a,#0d2b27);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">Career Timeline</div>
+          <div style="margin-top:.6rem" class="small muted">Concise chapters from youth to present day.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <footer>
+    <div style="font-weight:700">Cristiano Ronaldo — Cinematic Tribute</div>
+    <div class="small muted">Content summarized from public records about Ronaldo’s career up to the present. Illustrations are stylized and embedded inline. Made by Talha and other thing</div>
+  </footer>
+
+</div>
+
+<div class="glimmer" aria-hidden="true"></div>
+
+</body>
+</html>
